@@ -1,5 +1,6 @@
 #include "Framework/Application.h"
 #include <iostream>
+#include "Rendering/Shader.h"
 
 namespace mr
 {
@@ -33,6 +34,9 @@ namespace mr
 
         glEnableVertexAttribArray(0);
         glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0); 
+
+        //Shader...
+        Shader shader = Shader("vertex", "fragment");
 
         while(!glfwWindowShouldClose(mWindow))
         {
