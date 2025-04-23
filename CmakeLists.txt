@@ -18,6 +18,14 @@ add_executable(${MUSHROOM_ENGINE_TARGET_NAME})
 target_sources(${MUSHROOM_ENGINE_TARGET_NAME}
     PRIVATE 
     "${CMAKE_CURRENT_SOURCE_DIR}/MushroomEngine/src/main.cpp"
+
+    "${CMAKE_CURRENT_SOURCE_DIR}/MushroomEngine/include/Framework/Application.h"
+    "${CMAKE_CURRENT_SOURCE_DIR}/MushroomEngine/src/Framework/Application.cpp"
+)
+
+target_include_directories(${MUSHROOM_ENGINE_TARGET_NAME}
+    PRIVATE
+    "${CMAKE_CURRENT_SOURCE_DIR}/MushroomEngine/include"
 )
 
 # Add the glfw lib
