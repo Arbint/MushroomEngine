@@ -1,6 +1,6 @@
 #pragma once
 #include <string>
-#include <GLAD/glad.h>
+#include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
 namespace mr
@@ -9,8 +9,11 @@ namespace mr
     {
     public:
         Application(int windowWidth, int windowHeight, const std::string& windowTitle);
+        virtual ~Application();
+        void Run();
     private:
         void InitWindow(int windowWidth, int windowHeight, const std::string& windowTitle);
+        void ProcessInput(GLFWwindow* window);
         GLFWwindow* mWindow;
     };
 }
