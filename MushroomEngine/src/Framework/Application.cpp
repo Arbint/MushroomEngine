@@ -19,7 +19,9 @@ namespace mr
     {
         float triangleVertexData[]
         {
-            -0.5, -0.5, 0.0, 0.0, 0.5, 0.0, 0.5, -0.5, 0.0
+            -0.5, -0.5, 0.0,  1.f, 0.f, 0.f,
+             0.0,  0.5, 0.0,  0.f, 1.f, 0.f,
+             0.5, -0.5, 0.0,  0.f, 0.f, 1.f
         };
 
         unsigned int vertexArrayObjectId;
@@ -33,7 +35,10 @@ namespace mr
         glBufferData(GL_ARRAY_BUFFER, sizeof(triangleVertexData), triangleVertexData, GL_STATIC_DRAW);
 
         glEnableVertexAttribArray(0);
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0); 
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0); 
+
+        glEnableVertexAttribArray(1);
+        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float))); 
 
         //Shader...
         Shader shader = Shader("vertex", "fragment");
