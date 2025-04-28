@@ -20,6 +20,9 @@ namespace mr
 
     void Application::Run()
     {
+        glm::mat4 trans = glm::mat4(1.0f);
+        trans = glm::rotate(trans, glm::radians(40.f), glm::vec3{0.0f, 0.0f, 1.0f});
+
         float triangleVertexData[]
         {
             -0.5, -0.5, 0.0,  1.f, 0.f, 0.f,
@@ -59,11 +62,32 @@ namespace mr
         Shader shader = Shader("vertex", "fragment");
         shader.UseShaderProgram();
 
+        
+        //model
+        glm::mat4 modelMat = glm::mat4(1.0f);
+        modelMat = glm::translate(modelMat, glm::vec3(0.f, 0.f, -10.f));
+
+        //view
+        glm::vec3 cameraLocation = glm::vec3(0.f, 0.f, 10.f);
+        
+        
         while(!glfwWindowShouldClose(mWindow))
         {
             ProcessInput(mWindow);
             glfwPollEvents();		
             glClear(GL_COLOR_BUFFER_BIT);
+            //matricies
+            //project
+            int width, height;
+            glfwGetWindowSize(mWindow, &width, &height);
+            glm::mat4 projectionMat = glm::perspective(50.f, (float)width/(float)height, 0.1f, 3000.f);
+            cameraLocation += glm::vec3(0.f, 0.f, -.1f);
+            glm::mat4 viewMat = glm::lookAt(cameraLocation, cameraLocation + glm::vec3(0.f, 0.f, -1.f), glm::vec3(0.f, 1.f, 0.f));
+            
+            modelMat = glm::rotate(modelMat, glm::radians(2.f), glm::vec3(0.f, 1.f, 0.f));
+            shader.SetUniformMat4("modelMat", modelMat);
+            shader.SetUniformMat4("viewMat", viewMat);
+            shader.SetUniformMat4("projectionMat", projectionMat);
             // glDrawArrays(GL_TRIANGLES, 0, 6);
             glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
             glfwSwapBuffers(mWindow);
