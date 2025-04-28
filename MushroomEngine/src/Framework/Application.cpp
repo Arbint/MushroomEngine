@@ -37,6 +37,7 @@ namespace mr
 
         //Shader...
         Shader shader = Shader("vertex", "fragment");
+        shader.UseShaderProgram();
 
         while(!glfwWindowShouldClose(mWindow))
         {

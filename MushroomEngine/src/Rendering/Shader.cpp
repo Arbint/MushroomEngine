@@ -12,6 +12,13 @@ namespace mr
     {
         unsigned int vertexShader = CompileShader(vertexShaderName, GL_VERTEX_SHADER); 
         unsigned int fragmentShader = CompileShader(fragmentShaderName, GL_FRAGMENT_SHADER); 
+
+        mShaderProgramId = BuildShaderProgram(vertexShader, fragmentShader);
+    }
+
+    void Shader::UseShaderProgram()
+    {
+        glUseProgram(mShaderProgramId);
     }
 
     unsigned int Shader::CompileShader(const std::string &shaderName, unsigned int shaderType)
@@ -48,4 +55,28 @@ namespace mr
 
         return buffer.str();
     }
+
+    unsigned int Shader::BuildShaderProgram(unsigned int vertexShaderId, unsigned int fragementShaderId)
+    {
+        unsigned int newShaderProgram = glCreateProgram();
+        glAttachShader(newShaderProgram, vertexShaderId);
+        glAttachShader(newShaderProgram, fragementShaderId);
+        glLinkProgram(newShaderProgram);
+
+        int success;
+        glGetProgramiv(newShaderProgram, GL_LINK_STATUS, &success);
+        if(!success)
+        {
+            char infoLog[512];
+            glGetProgramInfoLog(newShaderProgram, 512, NULL, infoLog);
+
+            throw std::runtime_error("ERROR::SHADER::SHADER_PROGRAM::LINK_FAILD:\n" + std::string(infoLog));
+        }
+
+        glDeleteShader(vertexShaderId); 
+        glDeleteShader(fragementShaderId); 
+
+        return newShaderProgram;
+    }
 }
+
